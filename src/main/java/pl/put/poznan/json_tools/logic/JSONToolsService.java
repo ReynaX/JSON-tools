@@ -110,7 +110,7 @@ public class JSONToolsService{
                 continue;
             if(node.getValue().isContainerNode()){
                 ObjectNode objectNode = mapper.createObjectNode();
-                extractProperties(node.getValue(), keys, objectNode);
+                filterProperties(node.getValue(), keys, objectNode);
                 result.set(node.getKey(), objectNode);
             }
             else result.set(node.getKey(), node.getValue());
