@@ -10,6 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.json_tools.exceptions.JSONException;
 import pl.put.poznan.json_tools.logic.JSONToolsService;
 
+/**
+ * Controller responsible for mapping request data to the defined request handler method.
+ *
+ * @author Przemysław Marcinkowski (ReynaX)
+ * @version 0.5, 12/10/2022
+ */
+
 @RestController
 @RequestMapping(path = "/json-tools")
 public class JSONToolsController{
@@ -21,25 +28,49 @@ public class JSONToolsController{
         JSONToolsController.service = service;
     }
 
+    /**
+     * Returns minified version of JSON by removing unneded characters. JSON to minify has to be valid and
+     * be under the property "json" in body of HTTP request.
+     *
+     * @param payload           body of HTTP request
+     * @return                  minified version of given JSON as HTTP response
+     * @throws JSONException    if given JSON is invalid
+     */
     @RequestMapping(method = RequestMethod.POST, value = "minify", produces = "application/json")
     public ResponseEntity<String> minify(@RequestBody String payload){
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 1)
             throw new JSONException("Payload should contain only one JSON property: \"json\"!", HttpStatus.BAD_REQUEST);
-        JsonNode jsonData = service.getJsonProperty(jsonNode, "data");
+        JsonNode jsonData = service.getJsonProperty(jsonNode, "json");
         return new ResponseEntity<>(service.minify(jsonData), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "pretty", produces = "application/json")
-    public ResponseEntity<String> pretty(@RequestBody String payload){
+    /**
+     * Returns pretty version of JSON by adding indentations, spaces and tabs to improve readability. JSON to prettify has to be valid and
+     * be under the property "json" in body of HTTP request.
+     *
+     * @param payload           body of HTTP request that s
+     * @return                  pretty version of given JSON as HTTP response
+     * @throws JSONException    if given JSON is invalid
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "prettify", produces = "application/json")
+    public ResponseEntity<String> prettify(@RequestBody String payload){
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 1)
             throw new JSONException("Payload should contain only one JSON property: \"json\"!", HttpStatus.BAD_REQUEST);
-        JsonNode jsonData = service.getJsonProperty(jsonNode, "data");
-        return new ResponseEntity<>(service.pretty(jsonData), HttpStatus.OK);
+        JsonNode jsonData = service.getJsonProperty(jsonNode, "json");
+        return new ResponseEntity<>(service.prettify(jsonData), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "compare")
+    /**
+     * Returns difference between two JSONs in <a href ="https://jsonpatch.com">JSON Patch</a> format.
+     * JSONs to compare have to be valid and be under properties "json1" and "json2" in body of HTTP request.
+     *
+     * @param payload           body of HTTP request
+     * @return                  difference between two JSONs as HTTP response
+     * @throws JSONException    if given JSON doesn't have "json1" or "json2" properties or either JSON is invalid
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "compare", produces = "application/json")
     public ResponseEntity<String> compare(@RequestBody String payload){
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 2)
@@ -49,7 +80,16 @@ public class JSONToolsController{
         return new ResponseEntity<>(service.compare(json1, json2), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "extract")
+    /**
+     * Returns JSON with removed properties specified in JSON array.
+     * JSON has to have two properties "json" that contains JSON to extract from and
+     * property "keys" that is a JSON array of strings.
+     *
+     * @param payload           body of HTTP request
+     * @return                  JSON with no given properties
+     * @throws JSONException    if given JSON payload doesn't have "json" and "keys" properties or either JSON is invalid
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "extract", produces = "application/json")
     public ResponseEntity<String> extract(@RequestBody String payload){
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 2)
@@ -57,10 +97,19 @@ public class JSONToolsController{
         JsonNode jsonData = service.getJsonProperty(jsonNode, "json");
         JsonNode jsonKeys = service.getJsonProperty(jsonNode, "keys");
 
-        return new ResponseEntity<>("TODO", HttpStatus.OK);
+        return new ResponseEntity<>(service.extract(jsonData, jsonKeys), HttpStatus.OK);
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "filter")
+    /**
+     * Returns JSON with properties specified in JSON array.
+     * JSON has to have two properties "json" that contains JSON to filter in and
+     * property "keys" that is a JSON array of strings.
+     *
+     * @param payload           body of HTTP request
+     * @return                  JSON with only given properties
+     * @throws JSONException    if given JSON payload doesn't have "json" and "keys" properties or either JSON is invalid
+     */
+    @RequestMapping(method = RequestMethod.POST, value = "filter", produces = "application/json")
     public ResponseEntity<String> filter(@RequestBody String payload){
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 2)
@@ -68,7 +117,7 @@ public class JSONToolsController{
         JsonNode jsonData = service.getJsonProperty(jsonNode, "json");
         JsonNode jsonKeys = service.getJsonProperty(jsonNode, "keys");
 
-        return new ResponseEntity<>("TODO", HttpStatus.OK);
+        return new ResponseEntity<>(service.filter(jsonData, jsonKeys), HttpStatus.OK);
     }
 }
 

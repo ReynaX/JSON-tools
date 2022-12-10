@@ -1,13 +1,16 @@
 package pl.put.poznan.json_tools.logic;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.flipkart.zjsonpatch.JsonDiff;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.put.poznan.json_tools.exceptions.JSONException;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 
 @Service
 public class JSONToolsService{
@@ -46,7 +49,7 @@ public class JSONToolsService{
         }
     }
 
-    public String pretty(JsonNode node){
+    public String prettify(JsonNode node){
         try{
             String pretty = node.toPrettyString();
             if(pretty == null)
@@ -63,21 +66,54 @@ public class JSONToolsService{
     }
 
     public String filter(JsonNode jsonData, JsonNode jsonKeys){
-        // TODO: Traverse through all nodes
-        return null;
-    }
-    public String extract(JsonNode jsonData, JsonNode jsonKeys){
-        // TODO: Traverse through all nodes
-        return null;
+        HashSet<String> keys = getKeys(jsonKeys);
+        ObjectNode objectNode = mapper.createObjectNode();
+        filterProperties(jsonData, keys, objectNode);
+        return objectNode.toPrettyString();
     }
 
-    public HashSet<String> getKeys(JsonNode jsonKeys){
+    public String extract(JsonNode jsonData, JsonNode jsonKeys){
+        HashSet<String> keys = getKeys(jsonKeys);
+        ObjectNode objectNode = mapper.createObjectNode();
+        extractProperties(jsonData, keys, objectNode);
+
+        return objectNode.toPrettyString();
+    }
+
+    private HashSet<String> getKeys(JsonNode jsonKeys){
         HashSet<String> res = new HashSet<>();
         if(jsonKeys.isArray()){
-            for(final JsonNode node: jsonKeys){
+            for(final JsonNode node : jsonKeys){
                 res.add(node.asText());
             }
         }
         return res;
+    }
+
+    private void extractProperties(JsonNode rootNode, HashSet<String> keys, ObjectNode result){
+        for(Iterator<Map.Entry<String, JsonNode>> it = rootNode.fields(); it.hasNext(); ){
+            Map.Entry<String, JsonNode> node = it.next();
+            if(keys.contains(node.getKey()))
+                continue;
+            if(node.getValue().isContainerNode()){
+                ObjectNode objectNode = mapper.createObjectNode();
+                extractProperties(node.getValue(), keys, objectNode);
+                result.set(node.getKey(), objectNode);
+            }else result.set(node.getKey(), node.getValue());
+        }
+    }
+
+    private void filterProperties(JsonNode rootNode, HashSet<String> keys, ObjectNode result){
+        for(Iterator<Map.Entry<String, JsonNode>> it = rootNode.fields(); it.hasNext(); ){
+            Map.Entry<String, JsonNode> node = it.next();
+            if(!keys.contains(node.getKey()))
+                continue;
+            if(node.getValue().isContainerNode()){
+                ObjectNode objectNode = mapper.createObjectNode();
+                extractProperties(node.getValue(), keys, objectNode);
+                result.set(node.getKey(), objectNode);
+            }
+            else result.set(node.getKey(), node.getValue());
+        }
     }
 }
