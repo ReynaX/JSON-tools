@@ -1,0 +1,83 @@
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : [""aha"", ""spoko"", ""data""]
+}","{""aha"":""aha"",""spoko"":123,""data"":{""spoko"":122}}"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : [""aha"", ""spoko""]
+}","{""aha"":""aha"",""spoko"":123}"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : []
+}",{}
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : [""data""]
+}","{""data"":{}}"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  }
+}","Payload should contain two JSON properties: ""json"" and ""keys""!"
+"{
+  ""aha"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : [""data""]
+}","Missing JSON property: ""json""!"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""aha"" : [""data""]
+}","Missing JSON property: ""keys""!"
+"{
+  ""json"": {
+
+  },""keys"" : [""data""]
+
+}",{}

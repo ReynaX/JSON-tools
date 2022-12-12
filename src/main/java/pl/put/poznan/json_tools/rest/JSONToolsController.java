@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.put.poznan.json_tools.logic.JSONToolsService;
 
 import pl.put.poznan.json_tools.exceptions.JSONException;
-import pl.put.poznan.json_tools.logic.JSONToolsService;
 
 /**
  * Controller responsible for mapping request data to the defined request handler method.

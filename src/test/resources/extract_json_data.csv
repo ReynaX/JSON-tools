@@ -1,0 +1,83 @@
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : [""aha"", ""spoko"", ""data""]
+}","{""essa"":441}"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : [""aha"", ""spoko""]
+}","{""essa"":441,""data"":{""essa"":441}}"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : []
+}","{""aha"":""aha"",""spoko"":123,""essa"":441,""data"":{""essa"":441,""spoko"":122}}"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : [""data""]
+}","{""aha"":""aha"",""spoko"":123,""essa"":441}"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  }
+}","Payload should contain two JSON properties: ""json"" and ""keys""!"
+"{
+  ""aha"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""keys"" : [""data""]
+}","Missing JSON property: ""json""!"
+"{
+  ""json"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""aha"" : [""data""]
+}","Missing JSON property: ""keys""!"
+"{
+  ""json"": {
+
+  },""keys"" : [""data""]
+
+}",{}
