@@ -39,9 +39,16 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "minify", produces = "application/json")
     public ResponseEntity<String> minify(@RequestBody String payload){
+
+
+        logger.debug("Minify method requested with parameter: {}", payload);
+
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 1)
             throw new JSONException("Payload should contain only one JSON property: \"json\"!", HttpStatus.BAD_REQUEST);
+
+        logger.info("Payload passed successfully, minify method invoked");
+
         JsonNode jsonData = service.getJsonProperty(jsonNode, "json");
         return new ResponseEntity<>(service.minify(jsonData), HttpStatus.OK);
     }
@@ -56,9 +63,15 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "prettify", produces = "application/json")
     public ResponseEntity<String> prettify(@RequestBody String payload){
+
+        logger.debug("Prettify method requested with parameter: {}", payload);
+
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 1)
             throw new JSONException("Payload should contain only one JSON property: \"json\"!", HttpStatus.BAD_REQUEST);
+
+        logger.info("Payload passed successfully, prettify method invoked");
+
         JsonNode jsonData = service.getJsonProperty(jsonNode, "json");
         return new ResponseEntity<>(service.prettify(jsonData), HttpStatus.OK);
     }
@@ -73,9 +86,15 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "compare", produces = "application/json")
     public ResponseEntity<String> compare(@RequestBody String payload){
+
+        logger.debug("Compare method requested with parameter: {}", payload);
+
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 2)
             throw new JSONException("Payload should contain two JSON properties: \"json1\", \"json2\"!", HttpStatus.BAD_REQUEST);
+
+        logger.info("Payload passed successfully, compare method invoked");
+
         JsonNode json1 = service.getJsonProperty(jsonNode, "json1");
         JsonNode json2 = service.getJsonProperty(jsonNode, "json2");
         return new ResponseEntity<>(service.compare(json1, json2), HttpStatus.OK);
@@ -92,9 +111,15 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "extract", produces = "application/json")
     public ResponseEntity<String> extract(@RequestBody String payload){
+
+        logger.debug("Extract method requested with parameter: {}", payload);
+
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 2)
             throw new JSONException("Payload should contain two JSON properties: \"json\" and \"keys\"!", HttpStatus.BAD_REQUEST);
+
+        logger.info("Payload passed successfully, extract method invoked");
+
         JsonNode jsonData = service.getJsonProperty(jsonNode, "json");
         JsonNode jsonKeys = service.getJsonProperty(jsonNode, "keys");
 
@@ -112,11 +137,16 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "filter", produces = "application/json")
     public ResponseEntity<String> filter(@RequestBody String payload){
+
+        logger.debug("Filter method requested with parameter: {}", payload);
+
         JsonNode jsonNode = service.getJsonNode(payload);
         if(jsonNode.size() != 2)
             throw new JSONException("Payload should contain two JSON properties: \"json\" and \"keys\"!", HttpStatus.BAD_REQUEST);
         JsonNode jsonData = service.getJsonProperty(jsonNode, "json");
         JsonNode jsonKeys = service.getJsonProperty(jsonNode, "keys");
+
+        logger.info("Payload passed successfully, filter method invoked");
 
         return new ResponseEntity<>(service.filter(jsonData, jsonKeys), HttpStatus.OK);
     }
