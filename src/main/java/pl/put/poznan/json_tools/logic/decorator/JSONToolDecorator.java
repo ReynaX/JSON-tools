@@ -8,6 +8,12 @@ import pl.put.poznan.json_tools.exceptions.JSONException;
 
 import java.util.HashSet;
 
+/**
+ * Decorator implementation that to wrap objects and allow adding new behaviors to objects by placing them inside.
+ *
+ * @author Przemysław Marcinkowski (ReynaX)
+ * @version 1.0, 13/12/2022
+ */
 public class JSONToolDecorator implements IJSONTool{
     protected static ObjectMapper mapper = new ObjectMapper();
     protected IJSONTool tool;
@@ -16,6 +22,12 @@ public class JSONToolDecorator implements IJSONTool{
         this.tool = tool;
     }
 
+    /**
+     * Collects textual values from an array in given JSON and collects them in hash set.
+     *
+     * @param jsonKeys  array of string values in JSON format
+     * @return          set of string values if given JSON is an array, otherwise empty set
+     */
     protected static HashSet<String> getKeys(JsonNode jsonKeys){
         HashSet<String> res = new HashSet<>();
         if(jsonKeys.isArray()){
@@ -26,6 +38,12 @@ public class JSONToolDecorator implements IJSONTool{
         return res;
     }
 
+    /**
+     * Create JSON from given string.
+     * @param json      string to create JSON from
+     * @return          created JSON node from given string
+     * @throws JSONException if given string is not valid JSON
+     */
     public static JsonNode getJsonNode(String json){
         try{
             JsonNode jsonNode = mapper.readTree(json);
@@ -37,6 +55,13 @@ public class JSONToolDecorator implements IJSONTool{
         }
     }
 
+    /**
+     * Get property from given JSON node.
+     * @param node      JSON to extract property from
+     * @param property  property name to extract
+     * @return          value of property as JSON node
+     * @throws JSONException if given node doesn't have given property
+     */
     public static JsonNode getJsonProperty(JsonNode node, String property){
         try{
             JsonNode jsonNode = node.get(property);
@@ -44,7 +69,7 @@ public class JSONToolDecorator implements IJSONTool{
                 throw new JSONException("Missing JSON property: \"" + property + "\"!", HttpStatus.BAD_REQUEST);
             return jsonNode;
         }catch(Exception ex){
-            throw new JSONException("Missing JSON property: \"" + property + "\"!", HttpStatus.BAD_REQUEST);
+            throw new JSONException("Invalid JSON!", HttpStatus.BAD_REQUEST);
         }
     }
 

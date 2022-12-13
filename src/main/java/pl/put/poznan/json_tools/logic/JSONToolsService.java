@@ -1,7 +1,6 @@
 package pl.put.poznan.json_tools.logic;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.flipkart.zjsonpatch.JsonDiff;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import pl.put.poznan.json_tools.exceptions.JSONException;

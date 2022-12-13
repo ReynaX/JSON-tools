@@ -14,7 +14,7 @@ import pl.put.poznan.json_tools.exceptions.JSONException;
  * Controller responsible for mapping request data to the defined request handler method.
  *
  * @author Przemysław Marcinkowski (ReynaX)
- * @version 0.5, 12/10/2022
+ * @version 1.0, 13/12/2022
  */
 
 @RestController
@@ -60,7 +60,7 @@ public class JSONToolsController{
      *
      * @param payload           body of HTTP request
      * @return                  difference between two JSONs as HTTP response
-     * @throws JSONException    if given JSON doesn't have "json1" or "json2" properties or either JSON is invalid
+     * @throws JSONException    if given JSON doesn't have "json1" or "json2" properties or JSON is invalid
      */
     @RequestMapping(method = RequestMethod.POST, value = "compare", produces = "application/json")
     public ResponseEntity<String> compare(@RequestBody String payload){
@@ -74,7 +74,7 @@ public class JSONToolsController{
      *
      * @param payload           body of HTTP request
      * @return                  JSON with no given properties
-     * @throws JSONException    if given JSON payload doesn't have "json" and "keys" properties or either JSON is invalid
+     * @throws JSONException    if given JSON payload doesn't have "json" or "keys" properties or JSON is invalid
      */
     @RequestMapping(method = RequestMethod.POST, value = "extract", produces = "application/json")
     public ResponseEntity<String> extract(@RequestBody String payload){
@@ -88,7 +88,7 @@ public class JSONToolsController{
      *
      * @param payload           body of HTTP request
      * @return                  JSON with only given properties
-     * @throws JSONException    if given JSON payload doesn't have "json" and "keys" properties or either JSON is invalid
+     * @throws JSONException    if given JSON payload doesn't have either "json" or "keys" properties or JSON is invalid
      */
     @RequestMapping(method = RequestMethod.POST, value = "filter", produces = "application/json")
     public ResponseEntity<String> filter(@RequestBody String payload){
