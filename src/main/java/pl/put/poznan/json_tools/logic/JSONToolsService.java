@@ -18,7 +18,7 @@ public class JSONToolsService{
         try{
             return new JSONToolMinify(new JSONTool()).generateOutput(jsonNode);
         }catch(Exception ex){
-            throw new JSONException("Invalid JSON!", HttpStatus.BAD_REQUEST);
+            throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -31,7 +31,7 @@ public class JSONToolsService{
         try{
             return new JSONToolPrettify(new JSONTool()).generateOutput(jsonNode);
         }catch(Exception ex){
-            throw new JSONException("Invalid JSON!", HttpStatus.BAD_REQUEST);
+            throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -43,7 +43,7 @@ public class JSONToolsService{
         try{
             return new JSONToolCompare(new JSONTool()).generateOutput(payloadAsJson);
         }catch(Exception ex){
-            throw new JSONException("Invalid JSON!", HttpStatus.BAD_REQUEST);
+            throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -55,7 +55,7 @@ public class JSONToolsService{
         try{
             return new JSONToolFilter(new JSONTool()).generateOutput(payloadAsJson);
         }catch(Exception ex){
-            throw new JSONException("Invalid JSON!", HttpStatus.BAD_REQUEST);
+            throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -67,7 +67,7 @@ public class JSONToolsService{
         try{
             return new JSONToolExtract(new JSONTool()).generateOutput(payloadAsJson);
         }catch(Exception ex){
-            throw new JSONException("Invalid JSON!", HttpStatus.BAD_REQUEST);
+            throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 }

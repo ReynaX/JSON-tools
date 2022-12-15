@@ -47,10 +47,10 @@ public class JSONToolDecorator implements IJSONTool{
     public static JsonNode getJsonNode(String json){
         try{
             JsonNode jsonNode = mapper.readTree(json);
-            if(jsonNode.isNull())
+            if(jsonNode == null)
                 throw new JSONException("Payload is not a valid JSON!", HttpStatus.BAD_REQUEST);
             return jsonNode;
-        }catch(Exception ex){
+        }catch(JsonProcessingException ex){
             throw new JSONException("Payload is not a valid JSON!", HttpStatus.BAD_REQUEST);
         }
     }
@@ -63,14 +63,10 @@ public class JSONToolDecorator implements IJSONTool{
      * @throws JSONException if given node doesn't have given property
      */
     public static JsonNode getJsonProperty(JsonNode node, String property){
-        try{
-            JsonNode jsonNode = node.get(property);
-            if(jsonNode.isNull())
-                throw new JSONException("Missing JSON property: \"" + property + "\"!", HttpStatus.BAD_REQUEST);
-            return jsonNode;
-        }catch(Exception ex){
-            throw new JSONException("Invalid JSON!", HttpStatus.BAD_REQUEST);
-        }
+        JsonNode jsonNode = node.get(property);
+        if(jsonNode == null)
+            throw new JSONException("Missing JSON property: \"" + property + "\"!", HttpStatus.BAD_REQUEST);
+        return jsonNode;
     }
 
     @Override
