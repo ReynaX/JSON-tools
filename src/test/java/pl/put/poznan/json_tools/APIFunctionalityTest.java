@@ -60,6 +60,14 @@ public class APIFunctionalityTest{
         assert result.equals(expected);
     }
 
+    @ParameterizedTest
+    @CsvFileSource(resources = "/compare_json_data.csv")
+    public void testCompare(String json, String expected) throws  Exception{
+        final String baseUrl = "http://localhost:"+ serverPort + "/json-tools/compare";
+        String result = getFiltersResult(baseUrl, json, mapper, restTemplate);
+        assert result.equals(expected);
+    }
+
     static private int getPostResult(String baseUrl, String payload, ObjectMapper mapper, TestRestTemplate restTemplate) throws Exception{
         JsonNode node = mapper.readTree(payload);
         HttpHeaders headers = new HttpHeaders();
@@ -81,4 +89,6 @@ public class APIFunctionalityTest{
             return mapper.readTree(res).toString();
         }
     }
+
+
 }
