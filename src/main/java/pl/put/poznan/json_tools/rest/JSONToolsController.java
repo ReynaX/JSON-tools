@@ -29,7 +29,7 @@ public class JSONToolsController{
     }
 
     /**
-     * Returns minified version of JSON by removing unneded characters. JSON to minify has to be valid and
+     * Returns minified version of JSON by removing unneeded characters. JSON to minify has to be valid and
      * be under the property "json" in body of HTTP request.
      *
      * @param payload           body of HTTP request

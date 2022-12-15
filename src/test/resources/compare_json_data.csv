@@ -1,0 +1,128 @@
+"{
+  ""json1"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""json2"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  }
+}",[]
+"{
+  ""json1"": {
+    ""aha"": ""a""
+  },""json2"": {
+    ""aha"": ""aha""
+    }
+  }
+}","[{""op"":""replace"",""path"":""/aha"",""value"":""aha""}]"
+"{
+  ""json1"": {
+    ""aha"": ""aha""
+  },""json2"": {
+    ""a"": ""aha""
+    }
+  }
+}","[{""op"":""move"",""path"":""/a"",""from"":""/aha""}]"
+"{
+  ""json1"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""json2"" : []
+}","[{""op"":""replace"",""path"":""/"",""value"":[]}]"
+"{
+  ""json1"": [],
+  ""json2"" :{
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  } 
+}","[{""op"":""replace"",""path"":""/"",""value"":{""aha"":""aha"",""spoko"":123,""essa"":441,""data"":{""essa"":441,""spoko"":122}}}]"
+"{
+  ""json1"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""json2"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441
+    }
+  }
+}","[{""op"":""remove"",""path"":""/data/spoko""}]"
+"{
+  ""json1"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""json2"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""data"": {
+      ""essa"": 441
+    }
+  }
+}","[{""op"":""remove"",""path"":""/essa""},{""op"":""remove"",""path"":""/data/spoko""}]"
+"{
+  ""json1"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  }
+}","Payload should contain two JSON properties: ""json1"", ""json2""!"
+"{
+  ""aha"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""json2"" : [""data""]
+}","Missing JSON property: ""json1""!"
+"{
+  ""json1"": {
+    ""aha"": ""aha"",
+    ""spoko"": 123,
+    ""essa"": 441,
+    ""data"": {
+      ""essa"": 441,
+      ""spoko"": 122
+    }
+  },""aha"" : [""data""]
+}","Missing JSON property: ""json2""!"
+"{
+}","Payload should contain two JSON properties: ""json1"", ""json2""!"
