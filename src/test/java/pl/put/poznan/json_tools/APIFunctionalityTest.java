@@ -48,7 +48,7 @@ public class APIFunctionalityTest{
         try{
             JSONToolDecorator prettify = new JSONToolPrettify(new JSONTool());
             String result = prettify.generateOutput(JSONToolDecorator.getJsonNode(json));
-            assert result.equals(expected.replaceAll("\n", "\r\n"));
+            assert result.replaceAll("\r\n", "\n").equals(expected);
         }catch(JSONException ex){
             assert expected.equals("exception");
         }
@@ -92,28 +92,4 @@ public class APIFunctionalityTest{
             assert ex.getMessage().equals(expected);
         }
     }
-
-    static private int getPostResult(String baseUrl, String payload, ObjectMapper mapper, TestRestTemplate restTemplate) throws Exception{
-        JsonNode node = mapper.readTree(payload);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<>(node.toPrettyString(), headers);
-        return restTemplate.exchange(baseUrl, HttpMethod.POST, request, byte[].class).getStatusCodeValue();
-    }
-
-    static private String getFiltersResult(String baseUrl, String payload, ObjectMapper mapper, TestRestTemplate restTemplate) throws Exception{
-        JsonNode node = mapper.readTree(payload);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> request = new HttpEntity<>(node.toPrettyString(), headers);
-        ResponseEntity<byte[]> result = restTemplate.exchange(baseUrl, HttpMethod.POST, request, byte[].class);
-        if(result.getStatusCodeValue() != 200)
-            return new String(result.getBody(), StandardCharsets.UTF_8);
-        else{
-            String res = new String(result.getBody(), StandardCharsets.UTF_8);
-            return mapper.readTree(res).toString();
-        }
-    }
-
-
 }
