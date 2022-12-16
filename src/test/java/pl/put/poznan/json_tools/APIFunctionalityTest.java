@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import pl.put.poznan.json_tools.exceptions.JSONException;
+import pl.put.poznan.json_tools.logic.decorator.*;
 
 import java.nio.charset.StandardCharsets;
 
@@ -30,42 +32,65 @@ public class APIFunctionalityTest{
 
     @ParameterizedTest
     @CsvFileSource(resources = "/minify_json_data.csv")
-    public void testMinify(String json, int expected) throws Exception{
-        final String baseUrl = "http://localhost:"+ serverPort + "/json-tools/minify";
-        int result = getPostResult(baseUrl, json, mapper, restTemplate);
-        assert result == expected;
+    public void testMinify(String json, String expected) throws Exception{
+        try{
+            JSONToolDecorator minify = new JSONToolMinify(new JSONTool());
+            String result = minify.generateOutput(JSONToolDecorator.getJsonNode(json));
+            assert result.equals(expected);
+        }catch(JSONException ex){
+            assert expected.equals("exception");
+        }
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/prettify_json_data.csv")
-    public void testPrettify(String json, int expected) throws Exception{
-        final String baseUrl = "http://localhost:"+ serverPort + "/json-tools/prettify";
-        int result = getPostResult(baseUrl, json, mapper, restTemplate);
-        assert result == expected;
+    public void testPrettify(String json, String expected) throws Exception{
+        try{
+            JSONToolDecorator prettify = new JSONToolPrettify(new JSONTool());
+            String result = prettify.generateOutput(JSONToolDecorator.getJsonNode(json));
+            assert result.equals(expected.replaceAll("\n", "\r\n"));
+        }catch(JSONException ex){
+            assert expected.equals("exception");
+        }
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/filter_json_data.csv")
     public void testFilter(String json, String expected) throws Exception{
-        final String baseUrl = "http://localhost:"+ serverPort + "/json-tools/filter";
-        String result = getFiltersResult(baseUrl, json, mapper, restTemplate);
-        assert result.equals(expected);
+        try{
+            JSONToolDecorator filter = new JSONToolFilter(new JSONTool());
+            String result = filter.generateOutput(JSONToolDecorator.getJsonNode(json));
+            String expect = JSONToolDecorator.getJsonNode(expected).toPrettyString();
+            assert result.equals(expect);
+        }catch(JSONException ex){
+            assert ex.getMessage().equals(expected);
+        }
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/extract_json_data.csv")
     public void testExtract(String json, String expected) throws Exception{
-        final String baseUrl = "http://localhost:"+ serverPort + "/json-tools/extract";
-        String result = getFiltersResult(baseUrl, json, mapper, restTemplate);
-        assert result.equals(expected);
+        try{
+            JSONToolDecorator extract = new JSONToolExtract(new JSONTool());
+            String result = extract.generateOutput(JSONToolDecorator.getJsonNode(json));
+            String expect = JSONToolDecorator.getJsonNode(expected).toPrettyString();
+            assert result.equals(expect);
+        }catch(JSONException ex){
+            assert ex.getMessage().equals(expected);
+        }
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/compare_json_data.csv")
     public void testCompare(String json, String expected) throws  Exception{
-        final String baseUrl = "http://localhost:"+ serverPort + "/json-tools/compare";
-        String result = getFiltersResult(baseUrl, json, mapper, restTemplate);
-        assert result.equals(expected);
+        try{
+            JSONToolDecorator compare = new JSONToolCompare(new JSONTool());
+            String result = compare.generateOutput(JSONToolDecorator.getJsonNode(json));
+            String expect = JSONToolDecorator.getJsonNode(expected).toPrettyString();
+            assert result.equals(expect);
+        }catch(JSONException ex){
+            assert ex.getMessage().equals(expected);
+        }
     }
 
     static private int getPostResult(String baseUrl, String payload, ObjectMapper mapper, TestRestTemplate restTemplate) throws Exception{

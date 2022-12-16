@@ -52,7 +52,7 @@
       ""spoko"": 122
     }
   }
-}","Payload should contain two JSON properties: ""json"" and ""keys""!"
+}","Missing JSON property: ""keys""!"
 "{
   ""aha"": {
     ""aha"": ""aha"",

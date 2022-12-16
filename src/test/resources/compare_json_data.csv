@@ -101,7 +101,7 @@
       ""spoko"": 122
     }
   }
-}","Payload should contain two JSON properties: ""json1"", ""json2""!"
+}","Missing JSON property: ""json2""!"
 "{
   ""aha"": {
     ""aha"": ""aha"",
@@ -124,5 +124,3 @@
     }
   },""aha"" : [""data""]
 }","Missing JSON property: ""json2""!"
-"{
-}","Payload should contain two JSON properties: ""json1"", ""json2""!"

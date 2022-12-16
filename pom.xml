@@ -13,10 +13,11 @@
 
     <groupId>pl.put.poznan</groupId>
     <artifactId>JSON-tools</artifactId>
-    <version>0.1</version>
+    <version>1.0.0</version>
 
 	<properties>
         <java.version>11</java.version>
+        <exec.mainClass>pl.put.poznan.json_tools.JSONToolsApplication</exec.mainClass>
     </properties>
 
     
@@ -57,16 +58,18 @@
             <scope>test</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>RELEASE</version>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.testng</groupId>-->
+<!--            <artifactId>testng</artifactId>-->
+<!--            <version>RELEASE</version>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
+
 
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
 
@@ -84,6 +87,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
             </plugin>
         </plugins>
     </build>
