@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<style>
+		#title{
+			text-align: center;
+		}
+		
+		#buttons{
+			width: 8%;
+			height: 100%;
+			padding: 15% 0 15% 0;
+		}
+		
+		#buttons button{
+			background-color: #04AA6D;
+			border: 1px solid green;
+			color: white;
+			cursor: pointer;
+			width: 100%; 
+			height: 100%;
+			padding: 15px 30px;
+			margin: 10px 0 0 0;
+			display: block;
+		}
+		
+		#buttons button:hover {
+			background-color: #3e8e41;
+		}
+		
+		#main-block{
+			width: 100%;
+			border: 4px solid green;
+			display: flex;
+		}
+		
+		textarea {
+			width: 45%;
+			resize: none;
+		}
+		
+</style>
+
+<script>
+	function onSubmitButtonClick(){
+		var xhr = new XMLHttpRequest();
+		var url = 'http://localhost:8080/json-tools/minify';
+		xhr.open("POST", url, true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		document.getElementById('output').value = 'hehe';
+		xhr.onload = function(){
+			document.getElementById('output').value = this.responseText;
+		}
+		var input = document.getElementById('input').value;
+
+		var data = JSON.stringify(input);
+        const regex = /\\"/g
+		var unquoted = data.replaceAll(regex, '"');
+		var result = unquoted.substring(1, unquoted.length-1);
+		xhr.send(unquoted);
+	}
+	
+	
+</script>
+<html>
+  <head>
+    <title>JSON-tools</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+  <h2 id="title"> JSON-tools </h2>
+  <div id="main-block">
+	<textarea id="input" placeholder="input" rows=50></textarea>
+	<div id="buttons">
+		<button id="minify" onclick="onSubmitButtonClick()">minify</button>
+		<button id="prettify" >prettify</button>
+		<button id="filter" >filter</button>
+		<button id="extract" >extract</button>
+		<button id="compare" >compare</button>
+	</div>
+	<textarea id="output" placeholder="output" rows=50></textarea>
+ </div>
+  </body>
+</html>

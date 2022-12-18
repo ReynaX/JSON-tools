@@ -4,8 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.put.poznan.json_tools.logic.JSONToolsService;
 
 import pl.put.poznan.json_tools.exceptions.JSONException;
@@ -17,7 +21,7 @@ import pl.put.poznan.json_tools.exceptions.JSONException;
  * @version 1.0, 13/12/2022
  */
 
-@RestController
+@Controller
 @RequestMapping(path = "/json-tools")
 public class JSONToolsController{
     private static final Logger logger = LoggerFactory.getLogger(JSONToolsController.class);
@@ -26,6 +30,11 @@ public class JSONToolsController{
     @Autowired
     public JSONToolsController(JSONToolsService service){
         JSONToolsController.service = service;
+    }
+
+    @RequestMapping(value = "", produces = MediaType.TEXT_HTML_VALUE)
+    public String index(){
+        return "index";
     }
 
     /**
@@ -38,6 +47,10 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "minify", produces = "application/json")
     public ResponseEntity<String> minify(@RequestBody String payload){
+        if (payload != null && payload.length() >= 2
+            && payload.charAt(0) == '\"' && payload.charAt(payload.length() - 1) == '\"') {
+            payload = payload.substring(1, payload.length() - 1);
+        }
         logger.debug("Minify method requested with parameter: {}", payload);
         ResponseEntity<String> result = new ResponseEntity<>(service.minify(payload), HttpStatus.OK);
         logger.info("Payload passed successfully, minify method invoked");
