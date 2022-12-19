@@ -1,19 +1,15 @@
 package pl.put.poznan.json_tools;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
-import org.springframework.http.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import pl.put.poznan.json_tools.exceptions.JSONException;
 import pl.put.poznan.json_tools.logic.decorator.*;
-
-import java.nio.charset.StandardCharsets;
 
 
 @SpringBootTest(webEnvironment= SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -48,7 +44,7 @@ public class APIFunctionalityTest{
         try{
             JSONToolDecorator prettify = new JSONToolPrettify(new JSONTool());
             String result = prettify.generateOutput(JSONToolDecorator.getJsonNode(json));
-            assert result.replaceAll("\r\n", "\n").equals(expected);
+            assert result.replaceAll("\r\n", "\n").equals(expected) || result.equals(expected);
         }catch(JSONException ex){
             assert expected.equals("exception");
         }
@@ -74,6 +70,7 @@ public class APIFunctionalityTest{
             JSONToolDecorator extract = new JSONToolExtract(new JSONTool());
             String result = extract.generateOutput(JSONToolDecorator.getJsonNode(json));
             String expect = JSONToolDecorator.getJsonNode(expected).toPrettyString();
+
             assert result.equals(expect);
         }catch(JSONException ex){
             assert ex.getMessage().equals(expected);

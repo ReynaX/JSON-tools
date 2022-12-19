@@ -39,7 +39,9 @@
 		
 </style>
 
-<script type="text/javascript">
+<html>
+<head>
+    <script type="text/javascript">
 			
 	window.onload = function(){
 		document.getElementById('input').addEventListener('keydown', addTabFunctionality, false);
@@ -58,6 +60,10 @@
 			this.selectionStart = this.selectionEnd = start + 1;
 		}
 	}
+	function replacer(key, value) {
+        return value.replace(/[^\w\s]/gi, '');
+    }
+
 	function onSubmitButtonClick(clicked_id){
 		var xhr = new XMLHttpRequest();
 		var url = `http://localhost:8080/json-tools/${clicked_id}`;
@@ -66,17 +72,9 @@
 		xhr.onload = function(){
 			document.getElementById('output').value = this.responseText;
 		}
-		var input = document.getElementById('input').value;
-
-		var data = JSON.stringify(input);
-        const regex = /\\"/g
-		var unquoted = data.replaceAll(regex, '"');
-		var result = unquoted.substring(1, unquoted.length-1);
-		xhr.send(unquoted);
+		xhr.send(document.getElementById('input').value);
 	}
 </script>
-<html>
-  <head>
     <title>JSON-tools</title>
     <meta charset="utf-8">
   </head>

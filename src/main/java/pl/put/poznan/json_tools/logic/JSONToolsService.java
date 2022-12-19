@@ -11,12 +11,12 @@ public class JSONToolsService{
 
     public String minify(String payload){
         JsonNode payloadAsJson = JSONToolMinify.getJsonNode(payload);
-        if(payloadAsJson.size() != 1)
-            throw new JSONException("Payload should contain only one JSON property: \"json\"!", HttpStatus.BAD_REQUEST);
-        JsonNode jsonNode = JSONToolPrettify.getJsonProperty(payloadAsJson, "json");
+//        if(payloadAsJson.size() != 1)
+//            throw new JSONException("Payload should contain only one JSON property: \"json\"!", HttpStatus.BAD_REQUEST);
+//        JsonNode jsonNode = JSONToolPrettify.getJsonProperty(payloadAsJson, "json");
 
         try{
-            return new JSONToolMinify(new JSONTool()).generateOutput(jsonNode);
+            return new JSONToolMinify(new JSONTool()).generateOutput(payloadAsJson);
         }catch(Exception ex){
             throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -24,12 +24,12 @@ public class JSONToolsService{
 
     public String prettify(String payload){
         JsonNode payloadAsJson = JSONToolPrettify.getJsonNode(payload);
-        if(payloadAsJson.size() != 1)
-            throw new JSONException("Payload should contain only one JSON property: \"json\"!", HttpStatus.BAD_REQUEST);
-        JsonNode jsonNode = JSONToolPrettify.getJsonProperty(payloadAsJson, "json");
+//        if(payloadAsJson.size() != 1)
+//            throw new JSONException("Payload should contain only one JSON property: \"json\"!", HttpStatus.BAD_REQUEST);
+//        JsonNode jsonNode = JSONToolPrettify.getJsonProperty(payloadAsJson, "json");
 
         try{
-            return new JSONToolPrettify(new JSONTool()).generateOutput(jsonNode);
+            return new JSONToolPrettify(new JSONTool()).generateOutput(payloadAsJson);
         }catch(Exception ex){
             throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
@@ -69,13 +69,5 @@ public class JSONToolsService{
         }catch(Exception ex){
             throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
-    }
-
-    public String cleanupJSONFromJS(String payload){
-        if (payload != null && payload.length() >= 2
-            && payload.charAt(0) == '\"' && payload.charAt(payload.length() - 1) == '\"') {
-            return payload.substring(1, payload.length() - 1);
-        }
-        return payload;
     }
 }
