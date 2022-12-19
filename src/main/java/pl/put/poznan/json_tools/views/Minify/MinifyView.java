@@ -9,6 +9,7 @@ import com.vaadin.flow.router.Route;
 import org.apache.commons.io.IOUtils;
 import pl.put.poznan.json_tools.logic.JSONToolsService;
 import pl.put.poznan.json_tools.views.MainLayout;
+import pl.put.poznan.json_tools.views.UploadExamplesI18N;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,6 +26,14 @@ public class MinifyView extends VerticalLayout {
         Upload upload = new Upload(buffer);
         service = new JSONToolsService();
         TextArea textArea = new TextArea();
+
+        upload.setAcceptedFileTypes(".csv");
+
+        UploadExamplesI18N i18n = new UploadExamplesI18N();
+        i18n.getAddFiles().setOne("Upload CSV...");
+        i18n.getDropFiles().setOne("Drop CSV here");
+        i18n.getError().setIncorrectFileType(
+                "The provided file does not have the correct format (CSV document).");
 
         upload.addSucceededListener(event -> {
             String result;
