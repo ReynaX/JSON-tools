@@ -7,9 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import pl.put.poznan.json_tools.logic.JSONToolsService;
 
 import pl.put.poznan.json_tools.exceptions.JSONException;
@@ -47,10 +45,7 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "minify", produces = "application/json")
     public ResponseEntity<String> minify(@RequestBody String payload){
-        if (payload != null && payload.length() >= 2
-            && payload.charAt(0) == '\"' && payload.charAt(payload.length() - 1) == '\"') {
-            payload = payload.substring(1, payload.length() - 1);
-        }
+        payload = service.cleanupJSONFromJS(payload);
         logger.debug("Minify method requested with parameter: {}", payload);
         ResponseEntity<String> result = new ResponseEntity<>(service.minify(payload), HttpStatus.OK);
         logger.info("Payload passed successfully, minify method invoked");
@@ -61,12 +56,13 @@ public class JSONToolsController{
      * Returns pretty version of JSON by adding indentations, spaces and tabs to improve readability. JSON to prettify has to be valid and
      * be under the property "json" in body of HTTP request.
      *
-     * @param payload           body of HTTP request that s
+     * @param payload           body of HTTP request
      * @return                  pretty version of given JSON as HTTP response
      * @throws JSONException    if given JSON is invalid
      */
     @RequestMapping(method = RequestMethod.POST, value = "prettify", produces = "application/json")
     public ResponseEntity<String> prettify(@RequestBody String payload){
+        payload = service.cleanupJSONFromJS(payload);
         logger.debug("Prettify method requested with parameter: {}", payload);
         ResponseEntity<String> result = new ResponseEntity<>(service.prettify(payload), HttpStatus.OK);
         logger.info("Payload passed successfully, prettify method invoked");
@@ -83,6 +79,7 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "compare", produces = "application/json")
     public ResponseEntity<String> compare(@RequestBody String payload){
+        payload = service.cleanupJSONFromJS(payload);
         logger.debug("Compare method requested with parameter: {}", payload);
         ResponseEntity<String> result = new ResponseEntity<>(service.compare(payload), HttpStatus.OK);
         logger.info("Payload passed successfully, compare method invoked");
@@ -100,6 +97,7 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "extract", produces = "application/json")
     public ResponseEntity<String> extract(@RequestBody String payload){
+        payload = service.cleanupJSONFromJS(payload);
         logger.debug("Extract method requested with parameter: {}", payload);
         ResponseEntity<String> result = new ResponseEntity<>(service.extract(payload), HttpStatus.OK);
         logger.info("Payload passed successfully, extract method invoked");
@@ -117,6 +115,7 @@ public class JSONToolsController{
      */
     @RequestMapping(method = RequestMethod.POST, value = "filter", produces = "application/json")
     public ResponseEntity<String> filter(@RequestBody String payload){
+        payload = service.cleanupJSONFromJS(payload);
         logger.debug("Filter method requested with parameter: {}", payload);
         ResponseEntity<String> result = new ResponseEntity<>(service.filter(payload), HttpStatus.OK);
         logger.info("Payload passed successfully, filter method invoked");

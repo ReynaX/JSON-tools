@@ -11,7 +11,7 @@ public class JSONExceptionHandler{
     private static final Logger logger = LoggerFactory.getLogger(JSONExceptionHandler.class);
     @ExceptionHandler(value = {JSONException.class})
     public ResponseEntity<String> handle(JSONException e){
-        logger.warn("Exception occurred!");
+        logger.warn("Exception occurred: " + e.getMessage());
         return new ResponseEntity<>(e.getMessage(), e.getStatus());
     }
 }

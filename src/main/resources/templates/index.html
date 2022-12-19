@@ -39,13 +39,30 @@
 		
 </style>
 
-<script>
-	function onSubmitButtonClick(){
+<script type="text/javascript">
+			
+	window.onload = function(){
+		document.getElementById('input').addEventListener('keydown', addTabFunctionality, false);
+	}
+	
+	function addTabFunctionality(e){
+		if (e.key == 'Tab') {
+			e.preventDefault();
+			var start = this.selectionStart;
+			var end = this.selectionEnd;
+
+			// set textarea value to: text before caret + tab + text after caret
+			this.value = this.value.substring(0, start) + "\t" + this.value.substring(end);
+
+			// put caret at right position again
+			this.selectionStart = this.selectionEnd = start + 1;
+		}
+	}
+	function onSubmitButtonClick(clicked_id){
 		var xhr = new XMLHttpRequest();
-		var url = 'http://localhost:8080/json-tools/minify';
+		var url = `http://localhost:8080/json-tools/${clicked_id}`;
 		xhr.open("POST", url, true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
-		document.getElementById('output').value = 'hehe';
 		xhr.onload = function(){
 			document.getElementById('output').value = this.responseText;
 		}
@@ -57,8 +74,6 @@
 		var result = unquoted.substring(1, unquoted.length-1);
 		xhr.send(unquoted);
 	}
-	
-	
 </script>
 <html>
   <head>
@@ -70,13 +85,13 @@
   <div id="main-block">
 	<textarea id="input" placeholder="input" rows=50></textarea>
 	<div id="buttons">
-		<button id="minify" onclick="onSubmitButtonClick()">minify</button>
-		<button id="prettify" >prettify</button>
-		<button id="filter" >filter</button>
-		<button id="extract" >extract</button>
-		<button id="compare" >compare</button>
+		<button id="minify" onclick="onSubmitButtonClick(this.id)">minify</button>
+		<button id="prettify" onclick="onSubmitButtonClick(this.id)">prettify</button>
+		<button id="filter" onclick="onSubmitButtonClick(this.id)" >filter</button>
+		<button id="extract" onclick="onSubmitButtonClick(this.id)" >extract</button>
+		<button id="compare" onclick="onSubmitButtonClick(this.id)" >compare</button>
 	</div>
-	<textarea id="output" placeholder="output" rows=50></textarea>
+	<textarea id="output" placeholder="output" rows=50 readonly="readonly"></textarea>
  </div>
   </body>
 </html>

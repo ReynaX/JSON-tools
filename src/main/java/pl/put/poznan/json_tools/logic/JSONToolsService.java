@@ -70,4 +70,12 @@ public class JSONToolsService{
             throw new JSONException(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
+
+    public String cleanupJSONFromJS(String payload){
+        if (payload != null && payload.length() >= 2
+            && payload.charAt(0) == '\"' && payload.charAt(payload.length() - 1) == '\"') {
+            return payload.substring(1, payload.length() - 1);
+        }
+        return payload;
+    }
 }
