@@ -8,6 +8,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.io.IOUtils;
 import pl.put.poznan.json_tools.logic.JSONToolsService;
+import pl.put.poznan.json_tools.logic.client.JSONToolsClientService;
 import pl.put.poznan.json_tools.views.MainLayout;
 import pl.put.poznan.json_tools.views.UploadExamplesI18N;
 
@@ -20,11 +21,9 @@ import java.nio.charset.StandardCharsets;
 public class MinifyView extends VerticalLayout {
 
     private MemoryBuffer buffer;
-    private JSONToolsService service;
-    public MinifyView() {
+    public MinifyView(JSONToolsClientService service) {
         buffer = new MemoryBuffer();
         Upload upload = new Upload(buffer);
-        service = new JSONToolsService();
         TextArea textArea = new TextArea();
 
         upload.setAcceptedFileTypes(".csv");
@@ -41,7 +40,7 @@ public class MinifyView extends VerticalLayout {
             InputStream inputStream = buffer.getInputStream();
             try {
                 String textJson = IOUtils.toString(inputStream, StandardCharsets.UTF_8);
-                result = service.minify(textJson);
+                result = service.getMinify(textJson);
                 textArea.setValue(result);
             } catch (IOException e) {
                 throw new RuntimeException(e);
