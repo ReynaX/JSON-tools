@@ -12,6 +12,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import pl.put.poznan.json_tools.appnav.AppNav;
 import pl.put.poznan.json_tools.appnav.AppNavItem;
+import pl.put.poznan.json_tools.views.compare.CompareView;
 import pl.put.poznan.json_tools.views.minify.MinifyView;
 import pl.put.poznan.json_tools.views.main.MainView;
 import pl.put.poznan.json_tools.views.prettify.PrettifyView;
@@ -57,6 +58,7 @@ public class MainLayout extends AppLayout {
         nav.addItem(new AppNavItem("JSON-tools", MainView.class, "la la-globe"));
         nav.addItem(new AppNavItem("Minify", MinifyView.class, "la la-globe"));
         nav.addItem(new AppNavItem("Prettify", PrettifyView.class, "la la-globe"));
+        nav.addItem(new AppNavItem("Compare", CompareView.class, "la la-globe"));
 
         return nav;
     }
