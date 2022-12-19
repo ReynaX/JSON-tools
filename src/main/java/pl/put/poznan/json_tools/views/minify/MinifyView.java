@@ -34,6 +34,7 @@ public class MinifyView extends VerticalLayout {
         i18n.getDropFiles().setOne("Drop CSV here");
         i18n.getError().setIncorrectFileType(
                 "The provided file does not have the correct format (CSV document).");
+        upload.setI18n(i18n);
 
         upload.addSucceededListener(event -> {
             String result;
