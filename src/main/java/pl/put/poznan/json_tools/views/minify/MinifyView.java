@@ -1,4 +1,4 @@
-package pl.put.poznan.json_tools.views.Minify;
+package pl.put.poznan.json_tools.views.minify;
 
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
