@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"pl.put.poznan.json_tools"},{"l":"pl.put.poznan.json_tools.exceptions"},{"l":"pl.put.poznan.json_tools.logic"},{"l":"pl.put.poznan.json_tools.logic.decorator"},{"l":"pl.put.poznan.json_tools.rest"}]

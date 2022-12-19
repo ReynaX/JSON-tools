@@ -1,0 +1,5 @@
+pl.put.poznan.json_tools
+pl.put.poznan.json_tools.exceptions
+pl.put.poznan.json_tools.logic
+pl.put.poznan.json_tools.logic.decorator
+pl.put.poznan.json_tools.rest
