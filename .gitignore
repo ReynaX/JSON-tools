@@ -19,6 +19,12 @@
 *.tar.gz
 *.rar
 
+# The following files are generated/updated by vaadin-maven-plugin
+node_modules/
+frontend/generated/
+pnpmfile.js
+vite.generated.ts
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
