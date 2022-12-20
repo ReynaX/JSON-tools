@@ -78,3 +78,4 @@ Poniższe przykłady zostały zrealizowane za pomocą [curl](https://curl.se/dow
 ### Authors
 - [Przemysław Marcinkowski](https://github.com/ReynaX)
 - [Andrei Staravoitau](https://github.com/Anstari)
+- [Maciej Matysiak](https://github.com/CaisyJeicam)
