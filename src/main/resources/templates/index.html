@@ -6,8 +6,8 @@
 		
 		#buttons{
 			width: 8%;
-			height: 100%;
-			padding: 15% 0 15% 0;
+			height: 8%;
+			padding: 8rem 0 0 0;
 		}
 		
 		#buttons button{
@@ -28,15 +28,36 @@
 		
 		#main-block{
 			width: 100%;
-			border: 4px solid green;
+			height: 35rem;
+			border: 0.25rem solid green;
 			display: flex;
 		}
 		
 		textarea {
-			width: 45%;
+			width: 46%;
 			resize: none;
 		}
 		
+
+		label{
+			display: inline-flex;
+			background-color: #04AA6D;
+			color: white;
+			margin: 2% 2%;
+			padding: 0.5rem;
+			border-radius: 0.3rem;
+			cursor: pointer;
+			margin-top: 1rem;
+		}
+		.alignleft{
+			float: left;
+		}
+
+		.alignright {
+			float: right;
+		}
+
+
 </style>
 
 <html>
@@ -96,7 +117,6 @@
   <div id="main-block">
 	<textarea id="input" placeholder="input" rows=50></textarea>
 	<div id="buttons">
-        <input type="file" id="input-file">
 		<button id="minify" onclick="onSubmitButtonClick(this.id)">minify</button>
 		<button id="prettify" onclick="onSubmitButtonClick(this.id)">prettify</button>
 		<button id="filter" onclick="onSubmitButtonClick(this.id)" >filter</button>
@@ -105,5 +125,11 @@
 	</div>
 	<textarea id="output" placeholder="output" rows=50 readonly="readonly"></textarea>
  </div>
-  </body>
+ <div id = "up-download">
+	<input type="file" id="input-file" hidden>
+	<label for="input-file" class="alignleft">Upload file</label>
+	<button id="download-file" hidden></button>
+	<label for="download-file" class="alignright">Download file</label>
+ </div> 
+</body>
 </html>
