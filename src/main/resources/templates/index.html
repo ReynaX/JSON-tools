@@ -42,11 +42,23 @@
 <html>
 <head>
     <script type="text/javascript">
-			
+
 	window.onload = function(){
 		document.getElementById('input').addEventListener('keydown', addTabFunctionality, false);
+		var input_file = document.getElementById('input-file')
+		input_file.onchange = function(e){
+			console.log(e.target.files[0])
+			var reader = new FileReader();
+			reader.readAsText(event.target.files[0]);
+			reader.onload = onReaderLoad;
+		}
 	}
-	
+
+	function onReaderLoad(event){
+        console.log(event.target.result);
+		document.getElementById('input').value = event.target.result;
+    }
+
 	function addTabFunctionality(e){
 		if (e.key == 'Tab') {
 			e.preventDefault();
@@ -74,6 +86,7 @@
 		}
 		xhr.send(document.getElementById('input').value);
 	}
+
 </script>
     <title>JSON-tools</title>
     <meta charset="utf-8">
@@ -83,6 +96,7 @@
   <div id="main-block">
 	<textarea id="input" placeholder="input" rows=50></textarea>
 	<div id="buttons">
+        <input type="file" id="input-file">
 		<button id="minify" onclick="onSubmitButtonClick(this.id)">minify</button>
 		<button id="prettify" onclick="onSubmitButtonClick(this.id)">prettify</button>
 		<button id="filter" onclick="onSubmitButtonClick(this.id)" >filter</button>
