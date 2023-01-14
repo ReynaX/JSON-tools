@@ -54,9 +54,6 @@ public class APIFunctionalityMockTest{
         when(mockMinify.generateOutput(node)).thenReturn("{\"fruit\":\"Apple\",\"size\":\"Large\",\"color\":\"Red\"}");
 
         // Minify exception
-        mockMinify = mock(JSONToolMinify.class);
-//        node = JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}XD}");
-//        when(mockMinify.generateOutput(node)).thenThrow(new JSONException("Payload is not a valid JSON!", HttpStatus.BAD_REQUEST));
         mockPrettify = mock(JSONToolPrettify.class);
         node = JSONToolDecorator.getJsonNode("\"{\"json\" : {\"option\": \"option\", \"option2\": 123}}\"");
         when(mockPrettify.generateOutput(node)).thenReturn("{\n" +
