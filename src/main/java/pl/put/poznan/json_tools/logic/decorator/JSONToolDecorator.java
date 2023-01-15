@@ -73,5 +73,4 @@ public class JSONToolDecorator implements IJSONTool{
     public String generateOutput(JsonNode jsonNode) throws JsonProcessingException{
         return tool.generateOutput(jsonNode);
     }
-
 }
