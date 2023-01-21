@@ -72,7 +72,7 @@ Poniższe przykłady zostały zrealizowane za pomocą [curl](https://curl.se/dow
 </code></pre>
 
 ### UML Diagram
-![UML class](https://user-images.githubusercontent.com/41871003/208314325-1b6a39b8-f0f5-4d0b-9572-ea85b94afb03.png)
+![UML class](https://user-images.githubusercontent.com/41871003/213885252-f2e4c5db-01e0-4b1b-b373-17053d1797b4.png)
 ![UML class (1)](https://user-images.githubusercontent.com/41871003/208314328-7049e0ee-a731-4c84-9c38-dadcac9ebb21.png)
 
 ### Authors
