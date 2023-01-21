@@ -1,8 +1,12 @@
 package pl.put.poznan.json_tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import pl.put.poznan.json_tools.exceptions.JSONException;
 import pl.put.poznan.json_tools.logic.decorator.*;
@@ -14,37 +18,32 @@ import static org.mockito.Mockito.when;
 
 public class APIFunctionalityExceptionTest{
 
-    private static JSONToolMinify mockMinify;
-    private static JSONToolPrettify mockPrettify;
-    private static JSONToolExtract mockExtract;
-    private static JSONToolFilter mockFilter;
-    private static JSONToolCompare mockCompare;
+    @Mock
+    ObjectMapper mapper;
+    @Mock
+    JsonNode mockNode;
 
     @BeforeEach
-    public void setup() throws JsonProcessingException{
-        mockMinify = mock(JSONToolMinify.class);
-        mockPrettify = mock(JSONToolPrettify.class);
-        mockExtract = mock(JSONToolExtract.class);
-        mockFilter = mock(JSONToolFilter.class);
-        mockCompare = mock(JSONToolCompare.class);
-
-        setupFilter();
-        setupExtract();
-        setupCompare();
+    private void setup() throws JsonProcessingException{
+        mapper = mock(ObjectMapper.class);
+        mockNode = mock(JsonNode.class);
+        when(mapper.readTree(Mockito.anyString())).thenReturn(mockNode);
     }
 
     @Test
     public void testMinifyException(){
+        IJSONTool tool = new JSONToolMinify(new JSONTool());
+        when(mockNode.toPrettyString()).thenThrow(new JSONException("Payload is not a valid JSON!", HttpStatus.BAD_REQUEST));
         JSONException exception = assertThrows(
                 JSONException.class,
-                () -> mockMinify.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}haha}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
         assertTrue(exception.getMessage().contentEquals("Payload is not a valid JSON!"));
 
         exception = assertThrows(
                 JSONException.class,
-                () -> mockMinify.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", option2:}}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
         assertTrue(exception.getMessage().contentEquals("Payload is not a valid JSON!"));
@@ -52,16 +51,18 @@ public class APIFunctionalityExceptionTest{
 
     @Test
     public void testPrettifyException(){
+        IJSONTool tool = new JSONToolPrettify(new JSONTool());
+        when(mockNode.toPrettyString()).thenThrow(new JSONException("Payload is not a valid JSON!", HttpStatus.BAD_REQUEST));
         JSONException exception = assertThrows(
                 JSONException.class,
-                () -> mockPrettify.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}haha}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
         assertTrue(exception.getMessage().contentEquals("Payload is not a valid JSON!"));
 
         exception = assertThrows(
                 JSONException.class,
-                () -> mockPrettify.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": aha}}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
         assertTrue(exception.getMessage().contentEquals("Payload is not a valid JSON!"));
@@ -69,18 +70,21 @@ public class APIFunctionalityExceptionTest{
 
     @Test
     public void testFilterPropertyNumberException(){
+        IJSONTool tool = new JSONToolFilter(new JSONTool());
         // No "keys" property
+        when(mockNode.toPrettyString()).thenReturn("{\"json\" : {\"option\": \"option\", \"option2\": 123}}");
         JSONException exception = assertThrows(
                 JSONException.class,
-                () -> mockFilter.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
 
         assertTrue(exception.getMessage().contentEquals("Missing JSON property: \"keys\"!"));
         // No "json" property
+        when(mockNode.toPrettyString()).thenReturn("{\"keys\" : [ \"option\"]}");
         exception = assertThrows(
                 JSONException.class,
-                () -> mockFilter.generateOutput(JSONToolDecorator.getJsonNode("{\"keys\" : [ \"option\"]}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
 
@@ -89,18 +93,21 @@ public class APIFunctionalityExceptionTest{
 
     @Test
     public void testExtractPropertyNumberException(){
+        IJSONTool tool = new JSONToolExtract(new JSONTool());
         // No "keys" property
+        when(mockNode.toPrettyString()).thenReturn("{\"json\" : {\"option\": \"option\", \"option2\": 123}}");
         JSONException exception = assertThrows(
                 JSONException.class,
-                () -> mockExtract.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
 
         assertTrue(exception.getMessage().contentEquals("Missing JSON property: \"keys\"!"));
         // No "json" property
+        when(mockNode.toPrettyString()).thenReturn("{\"keys\" : [ \"option\"]}");
         exception = assertThrows(
                 JSONException.class,
-                () -> mockExtract.generateOutput(JSONToolDecorator.getJsonNode("{\"keys\" : [ \"option\"]}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
 
@@ -109,33 +116,13 @@ public class APIFunctionalityExceptionTest{
 
     @Test
     public void testCompareException(){
+        IJSONTool tool = new JSONToolCompare(new JSONTool());
+        when(mockNode.toPrettyString()).thenReturn("{\"json\" : {\"option\": \"option\", \"option2\": 123}, \"json2\": {\"option\": \"option_changed\"}}");
         JSONException exception = assertThrows(
                 JSONException.class,
-                () -> mockCompare.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}, \"json2\": {\"option\": \"option_changed\"}}")),
+                () -> tool.generateOutput(mockNode),
                 "aha"
         );
         assertTrue(exception.getMessage().contentEquals("Missing JSON property: \"json1\"!"));
-    }
-
-
-    private void setupFilter() throws JsonProcessingException{
-        when(mockFilter.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}}"))).thenThrow(
-                new JSONException("Missing JSON property: \"keys\"!", HttpStatus.BAD_REQUEST));
-
-        when(mockFilter.generateOutput(JSONToolDecorator.getJsonNode("{\"keys\" : [ \"option\"]}"))).thenThrow(
-                new JSONException("Missing JSON property: \"json\"!", HttpStatus.BAD_REQUEST));
-    }
-
-    private void setupExtract() throws JsonProcessingException{
-        when(mockExtract.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}}"))).thenThrow(
-                new JSONException("Missing JSON property: \"keys\"!", HttpStatus.BAD_REQUEST));
-
-        when(mockExtract.generateOutput(JSONToolDecorator.getJsonNode("{\"keys\" : [ \"option\"]}"))).thenThrow(
-                new JSONException("Missing JSON property: \"json\"!", HttpStatus.BAD_REQUEST));
-    }
-
-    private void setupCompare() throws JsonProcessingException{
-        when(mockCompare.generateOutput(JSONToolDecorator.getJsonNode("{\"json\" : {\"option\": \"option\", \"option2\": 123}, \"json2\": {\"option\": \"option_changed\"}}"))).
-                thenThrow(new JSONException("Missing JSON property: \"json1\"!", HttpStatus.BAD_REQUEST));
     }
 }
